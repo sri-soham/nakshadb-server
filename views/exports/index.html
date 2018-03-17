@@ -1,0 +1,38 @@
+{{define "exports_index"}}{{template "header" .}}
+<div class="col100p">
+  <div class="tRight mb10 i">(Export will be auto-deleted after 3 days)</div>
+  <table class="with-header col100p with-row-highlight" id="exports-list">
+    <tr>
+      <th>Name</th>
+      <th class="col150">Type</th>
+      <th class="col100">Status</th>
+      <th class="col100">Download</th>
+      <th class="col50">Delete</th>
+      <th class="col200">Created At</th>
+      <th class="col200">Updated At</th>
+    </tr>
+    {{range $index, $export := .exports}}
+    <tr>
+      <td class="pos-rel">{{index $export "name"}}</td>
+      <td>{{index $export "type"}}</td>
+      <td>{{index $export "status"}}</td>
+      <td>{{index $export "download_link"}}</td>
+      <td><a href="#" id='de_{{index $export "id"}}' class="del-export">Delete</a></td>
+      <td>{{index $export "created_at"}}</td>
+      <td>{{index $export "updated_at"}}</td>
+    </tr>
+    {{end}}
+  </table>
+  <div class="pagination-div">
+    <p>({{.pagination_text}})</p>
+    {{.pagination_links}}
+  </div>
+</div>
+<link type="text/css" rel="stylesheet" href='{{"jquery-ui.1.12.1/jquery-ui.min.css" | _asset}}' />
+<script type="text/javascript" src='{{"jquery-ui.1.12.1/jquery-ui.min.js" | _asset}}'></script>
+{{"export.js" | _js}}
+<script type="text/javascript">
+  Export.init();
+</script>
+{{template "footer"}}
+{{end}}

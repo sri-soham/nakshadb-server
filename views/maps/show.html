@@ -1,0 +1,117 @@
+{{define "maps_show"}}{{template "header" .}}
+<link type="text/css" rel="stylesheet" href='{{"jquery-ui.1.12.1/jquery-ui.min.css" | _asset}}' />
+<div class="col100p">
+  <div id="page-title">
+    {{index .map_details "name"}}
+    &nbsp;
+    <a href='/p/m/{{index .map_details "id"}}-{{index .map_details "hash"}}' target="_blank" class="disp-inline fs085" id="view-map-link">view</a>
+  </div>
+  <div class="col-box col50p">
+    <div class="inner-box col100p-np mb10">
+      <div class="inner-box-header">Update Details</div>
+      <div class="inner-box-content">
+        <form name="frm_map_edit" id="frm_map_edit" method="post" action='/maps/{{index .map_details "id"}}/edit' class="pos-rel">
+          <table class="for-form col100p">
+            <tr>
+              <td>Name: </td>
+              <td><input type="text" name="name" value='{{index .map_details "name"}}' class="col100p" /></td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td><input type="submit" name="submit1" value="Save" /></td>
+            </tr>
+          </table>
+        </form>
+      </div>
+    </div>
+    <div class="inner-box col100p-np mb10">
+      <div class="inner-box-header">Base Map</div>
+      <div class="inner-box-content">
+        <form name="frm_map_base_layer" id="frm_map_base_layer" method="post" action='/maps/{{index .map_details "id"}}/base_layer' class="pos-rel">
+          <table class="for-form col100p">
+            <tr>
+              <td>Choose Base Layer: </td>
+              <td>
+                <select name="base_layer">
+                  {{range $k, $v := .base_layers}}
+                  <option value="{{$k}}" {{if eq (index $.map_details "base_layer") $k}}selected{{end}}>{{$v}}</option>
+                  {{end}}
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td><input type="submit" name="submit1" value="Save" /></td>
+            </tr>
+          </table>
+        </form>
+      </div>
+    </div>
+    <div class="inner-box col100p-np mb10">
+      <div class="inner-box-header">Map hash in URL</div>
+      <div class="inner-box-content">
+        <form name="frm_map_hash" id="frm_map_hash" method="post" action='/maps/{{index .map_details "id"}}/hash' class="pos-rel">
+          <p class="mb10 i fs090 bg2 padding10">
+            Please exercise caution while updating the url hash. Do it before
+            you have shared the map link with others. If you are modifying the
+            url after having shared the map link with others, those who are
+            trying to view the map with old url will get a 'not found' error.
+          </p>
+          <p class="mb5">
+            <input type="text" name="hash" value='{{index .map_details "hash"}}' class="col100p" />
+          </p>
+          <p class="tCenter">
+            <input type="submit" name="submit1" value="Save" />
+          </p>
+        </form>
+      </div>
+    </div>
+    <div class="inner-box col100p-np">
+      <div class="inner-box-header">Actions</div>
+      <div class="inner-box-content">
+        <form name="frm_map_delete" id="frm_map_delete" method="post" action='/maps/{{index .map_details "id"}}/delete' class="pos-rel">
+          <input type="submit" name="submit1" value="Delete" />
+        </form>
+      </div>
+    </div>
+  </div><!--
+  --><div class="col-box col5p">&nbsp;
+  </div><!--
+  --><div class="col-box col45p">
+    <div class="inner-box col100p-np">
+      <div class="inner-box-header">Tables/Layers on the map</div>
+      <div class="inner-box-content">
+        <table class="col100p with-header with-row-highlight">
+          <tbody id="existing-tables">
+            {{range $table := .tables}}
+            <tr>
+              <td class="pos-rel">{{index $table "table_name"}}</td>
+              <td class="col100">
+                <input type="button" class="btn-red del-layer" value="Delete Layer" name='btn_delete_{{index $table "layer_id"}}' />
+              </td>
+            </tr>
+            {{end}}
+          </tbody>
+          <tbody>
+            <tr>
+              <td class="pos-rel">
+                <input type="text" name="table_name" id="table_name" class="col100p" placeholder="Enter table name" />
+              </td>
+              <td class="col100">
+                <input type="button" name="btn_add_layer" id="btn_add_layer" value="Add Layer" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src='{{"jquery-ui.1.12.1/jquery-ui.min.js" | _asset}}'></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    MapAdmin.init('/maps/{{index .map_details "id"}}');
+  });
+</script>
+{{template "footer"}}
+{{end}}

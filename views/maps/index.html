@@ -1,0 +1,17 @@
+{{define "maps_index"}}{{template "header" .}}
+<div class="col100p">
+  <div id="page-title">Published Maps</div>
+  <div class="col100p-np mb10">
+  {{range $index, $map := .maps}}
+    <div class="published-map-div">
+      <a href='/maps/{{index $map "id"}}/show'>{{index $map "name"}}</a>
+    </div>
+  {{end}}
+  </div>
+  <div class="pagination-div">
+    <p>({{.pagination_text}})</p>
+    {{.pagination_links}}
+  </div>
+</div>
+{{template "footer"}}
+{{end}}

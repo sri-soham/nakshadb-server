@@ -1,0 +1,76 @@
+{{define "tables_new"}}{{template "header" .}}
+<link type="text/css" rel="stylesheet" href='{{"jquery-ui.1.12.1/jquery-ui.min.css" | _asset}}' />
+<div id="page-title">New Table</div>
+<div class="col-box col40p">
+  <div class="inner-box mb10">
+    <div class="inner-box-header">Allowed formats:</div>
+    <div class="inner-box-content">
+      <ul class="disc pl10">
+        <li class="mb5">ESRI Shape File (A zip file containing .dbf, .prj, .qpj, .shp, .shx)</li>
+        <li class="mb5">CSV (First line should be a header with column names; the_geom is mandatory)</li>
+        <li class="mb5">GeoJSON</li>
+        <li class="mb5">KML</li>
+      </ul>
+    </div>
+  </div>
+  <div class="inner-box mb10">
+    <div class="inner-box-header">Allowed feature types:</div>
+    <div class="inner-box-content">
+      <ul class="disc">
+        <li>Point</li>
+        <li>Line</li>
+        <li>Polygon</li>
+      </ul>
+    </div>
+  </div>
+  <div>
+    NOTE: Only one feature type allowed per table.
+  </div>
+</div>
+<div class="col-box col5p">&nbsp;</div>
+<div class="col-box col50p">
+  <div id="accordion">
+    <h3>Create table by uploading file</h3>
+    <div>
+      <form name="frm_new_table" id="frm_new_table" method="post" action="/tables/new" enctype="multipart/form-data" class="pos-rel">
+        <table class="for-form">
+          <tr>
+            <td>Name: </td>
+            <td><input type="text" name="name" /></td>
+          </tr>
+          <tr>
+            <td>File: </td>
+            <td><input type="file" name="file" /></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td><input type="submit" name="submit1" value="Upload" /></td>
+          </tr>
+        </table>
+      </form>
+    </div>
+    <h3>Create empty table</h3>
+    <div>
+      <form name="frm_empty_table" id="frm_empty_table" method="post" action="/tables/new?is_empty=1" class="pos-rel">
+        <table class="for-form">
+          <tr>
+            <td>Name: </td>
+            <td><input type="text" name="name" /></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td><input type="submit" name="submit1" value="Create" /></td>
+          </tr>
+        </table>
+      </form>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src='{{"jquery-ui.1.12.1/jquery-ui.min.js" | _asset}}'></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    NewTable.init();
+  });
+</script>
+{{template "footer"}}
+{{end}}

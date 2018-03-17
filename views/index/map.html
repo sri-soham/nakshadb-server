@@ -1,0 +1,61 @@
+{{define "index_map"}}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Naksha - {{index .map_details "name"}}</title>
+  <link type="text/css" rel="stylesheet" href='{{"leaflet/leaflet.css" | _asset}}' />
+  <style type="text/css">
+    html, body {
+        width: 100%;
+        height: 100%;
+        padding: 0px;
+        margin: 0px;
+        border: 0px;
+    }
+    #map-div {
+        position: absolute;
+        margin: 0px;
+        padding: 0px;
+        border: 0px;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        background-color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div id="map-div"></div>
+  <script type="text/javascript" src='{{"leaflet/leaflet.js" | _asset}}'></script>
+  <script type="text/javascript" src='{{"leaflet/leaflet.utfgrid.js" | _asset}}'></script>
+  {{if .is_google_maps}}
+  <script type="text/javascript" src='https://maps.googleapis.com/maps/api/js?key={{index .user_details "google_maps_key"}}' async defer></script>
+  <script type="text/javascript" src='{{"leaflet/Leaflet.GoogleMutant.js" | _asset}}'></script>
+  {{end}}
+  {{if .is_bing_maps}}
+  <script type="text/javascript" src='{{"leaflet/Bing.js" | _asset}}'></script>
+  {{end}}
+  {{if .is_yandex_maps}}
+  <script type="text/javascript" src="http://api-maps.yandex.ru/2.0/?load=package.map&amp;lang=en-GB"></script>
+  <script type="text/javascript" src='{{"leaflet/Yandex.js" | _asset}}'></script>
+  {{end}}
+  {{"jquery-3.2.1.min.js" | _js}}
+  {{"naksha_map.js" | _js}}
+  {{"show_map.js" | _js}}
+  <script type="text/javascript">
+    {{if .is_bing_maps}}
+    ShowMap.setBingMapsKey('{{index .user_details "bing_maps_key"}}');
+    {{end}}
+    ShowMap.init(
+      'map-div',
+      '{{index .user_details "schema_name"}}',
+      '{{index .map_details "base_layer"}}',
+      {{.layer_data}},
+      {{.extents}},
+    );
+  </script>
+</body>
+</html>
+{{end}}

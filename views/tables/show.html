@@ -1,0 +1,295 @@
+{{define "tables_show"}}{{template "header" .}}
+<link type="text/css" rel="stylesheet" href='{{"leaflet/leaflet.css" | _asset}}' />
+<link type="text/css" rel="stylesheet" href='{{"jquery-ui.1.12.1/jquery-ui.min.css" | _asset}}' />
+<link type="text/css" rel="stylesheet" href='{{"spectrum/spectrum.css" | _asset}}' />
+<div class="col100p">
+  <div id="page-title">{{index .table_details "name"}}</div>
+  <div id="tabs">
+    <ul>
+      <li><a href="#data-tab">Data</a></li>
+      <li><a href="#maps-tab">Map</a></li>
+      <li><a href="#styles-tab">Styles</a></li>
+      <li><a href="#infowindow-tab">Info Window</a></li>
+      <li><a href="#actions-tab">Actions</a></li>
+    </ul>
+    <div id="data-tab">
+      <div class="geom-table-container">
+        <table class="geom-table">
+          <thead id="gt-header"></thead>
+          <tbody id="gt-body"></tbody>
+          <tbody id="gt-footer">
+            <tr>
+              <td colspan="2" id="more-rows-td" class="disp-none">
+                <input type="button" name="btn_fetch_more" id="btn_fetch_more" value="Fetch More" />
+              </td>
+              <td colspan="2">
+                <input type="button" name="btn_add_row" id="btn_add_row" value="Add Row" class="disp-inline-block" />
+                <p class="disp-inline-block col50">&nbsp;</p>
+                <input type="button" name="btn_add_column" id="btn_add_column" value="Add Column" class="disp-inline-block" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="maps-tab">
+      <div id="map" style="width:100%;height:700px;"></div>
+      <div class="mt20 col100p-np">
+        <div class="col-box col25p-np">
+          <input type="button" name="btn_draw_feature" id="btn_draw_feature" value="Add Feature" />
+          &nbsp;
+          <select name="geometry_type" id="geometry_type" class="disp-none">
+            <option value="" selected>--Select--</option>
+            <option value="point">Point</option>
+            <option value="linestring">Line</option>
+            <option value="polygon">Polygon</option>
+          </select>
+        </div><!--
+     --><div class="col-box col75p-np">
+          <div class="disp-none" id="add-feature-buttons-div">
+            Start clicking on the map to add the feature.
+            <input type="button" name="btn_discard" id="btn_discard" value="Discard" class="ml10" />
+            <input type="button" name="btn_done" id="btn_done" value="Done" class="ml10" disabled />
+          </div>
+          <div id="base-layer-div" class="">
+            Base Layer:&nbsp;
+            <select name="base_layer" id="base_layer">
+              {{range $k, $v := .base_layers}}
+              <option value="{{$k}}" {{if eq $.base_layer $k}}selected{{end}}>{{$v}}</option>
+              {{end}}
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="styles-tab">
+      <form name="frm_styles" id="frm_styles" method="post" action="{{.tables_url}}/styles" class="pos-rel">
+        <table>
+          <tr id="tr-fill">
+            <td>Fill Color: </td>
+            <td><input type="text" name="fill" size="7" /></td>
+          </tr>
+          <tr id="tr-fill-opacity">
+            <td>Fill Opacity: </td>
+            <td><input type="text" name="fill_opacity" size="3" /></td>
+          </tr>
+          <tr id="tr-stroke">
+            <td>Stroke Color: </td>
+            <td><input type="text" name="stroke" size="7" /></td>
+          </tr>
+          <tr id="tr-stroke-width">
+            <td>Stroke Width: </td>
+            <td><input type="text" name="stroke_width" size="4" /></td>
+          </tr>
+          <tr id="tr-stroke-opacity">
+            <td>Stroke Opacity: </td>
+            <td><input type="text" name="stroke_opacity" size="3" /></td>
+          </tr>
+          <tr id="tr-width">
+            <td>Marker Width: </td>
+            <td><input type="text" name="width" size="4" /></td>
+          </tr>
+          <tr id="tr-height">
+            <td>Marker Height: </td>
+            <td><input type="text" name="height" size="4" /></td>
+          </tr>
+          <tr id="tr-submit">
+            <td>&nbsp;</td>
+            <td><input type="submit" name="submit1" value="Save" />
+          </tr>
+        </table>
+      </form>
+    </div>
+    <div id="infowindow-tab">
+      <form name="frm_infowindow" id="frm_infowindow" method="post" action="{{.tables_url}}/infowindow" class="pos-rel">
+        <div id="infowindow-columns"></div>
+        <div class="mt10 tLeft">
+          <input type="submit" name="submit1" value="Save" />
+        </div>
+      </form>
+    </div>
+    <div id="actions-tab">
+      <div class="col-box col40p">
+        <div class="col100p-np inner-box">
+          <div class="inner-box-header">Publish Map</div>
+          <div class="inner-box-content">
+            <form name="frm_publish" id="frm_publish" method="post" action="/maps/new" class="pos-rel">
+              <input type="hidden" name="layer" value="{{.layer_id}}" />
+              <div class="padding5">
+                Publish a map based on data of this table.
+              </div>
+              <table class="padding5 for-form col400">
+                <tr>
+                  <td>Name: </td>
+                  <td><input type="text" name="name" class="col100p" /></td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td><input type="submit" name="submit1" value="Publish" /></td>
+                </tr>
+              </table>
+            </form>
+          </div>
+        </div>
+      </div><!--
+   --><div class="col-box col30p">
+        <div class="col100p-np inner-box">
+          <div class="inner-box-header">Export</div>
+          <div class="inner-box-content">
+            <div class="col100p-np mb10 bg2">
+              <div id="loading-div" class="col-box col100 padding10 disp-none">
+                {{_image "loading_square.gif" "loading image" "width=\"60\" height=\"60\""}}
+              </div><div id="msg-div" class="col-box padding10 disp-none">
+                This is some message.
+              </div>
+            </div>
+            <form name="frm_export" id="frm_export" method="post" action="{{.tables_url}}/export">
+              <table class="for-form">
+                <tr>
+                  <td>Format: </td>
+                  <td>
+                    <select name="format">
+                      <option value="">--Select--</option>
+                      {{ range $k, $v := .export_formats }}
+                      <option value="{{$k}}">{{$v}}</option>
+                      {{ end }}
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td><input type="submit" name="submit1" value="Export" /></td>
+                </tr>
+              </table>
+            </form>
+          </div>
+        </div>
+      </div><!--
+   --><div class="col-box col30p">
+        <div class="col100p-np inner-box">
+          <div class="inner-box-header">Enable API Access</div>
+          <div class="inner-box-content">
+            <form name="frm_api_access" id="frm_api_access" method="post" action="{{.tables_url}}/api_access" class="pos-rel">
+              <table class="padding5 for-form col400">
+                <tr>
+                  <td>API Access: </td>
+                  <td>
+                    <input name="api_access" type="radio" value="t" {{if eq (index .table_details "api_access") "t"}} checked {{end}} />Enabled
+                    &nbsp;&nbsp;&nbsp;
+                    <input name="api_access" type="radio" value="f" {{if eq (index .table_details "api_access") "f"}} checked {{end}} />Disabled
+                  </td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td><input type="submit" name="submit1" value="Save" /></td>
+                </tr>
+              </table>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="geom-edit" class="disp-none">
+  <p></p>
+  <div class="mt10">
+  </div>
+  <div class="mt10 pos-rel mb10">
+    <div class="col-box col45p-np">
+      <input type="button" name="btn_update" id="btn_update" value="Update" class="col100p-np padding10" />
+    </div><!--
+ --><div class="col-box col10p-np">&nbsp;</div><!--
+ --><div class="col-box col45p-np">
+      <input type="button" name="btn_cancel" id="btn_cancel" value="Cancel" class="col100p-np padding10" />
+    </div>
+  </div>
+</div>
+<div id="geom-add-column" class="modal-div medium disp-none">
+  <h4>Add Column</h4>
+  <div>
+    <form name="frm_add_column" id="frm_add_column" method="post" action="{{.tables_url}}/add_column" class="pos-rel padding10">
+      <table class="for-form col100p-np">
+        <tr>
+          <td class="col100">Name: </td>
+          <td><input type="text" name="name" class="col100p" /></td>
+        </tr>
+        <tr>
+          <td>Data Type: </td>
+          <td>
+            <select name="data_type">
+              <option value="">--Select--</option>
+              <option value="1">Integer</option>
+              <option value="2">Floating Point Number</option>
+              <option value="3">String</option>
+              <option value="4">Timestamp</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>
+            <input type="submit" name="submit1" value="Add Column" class="col45p" />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="button" name="btn_cancel_add_column" id="btn_cancel_add_column" value="Cancel" class="col45p" />
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</div>
+<div id="geom-infowindow" class="disp-none padding10">
+  <table class="for-form mb10"></table>
+  <div class="bdt1 pt10 mt10 pos-rel">
+    <div class="col-box col35p-np">
+      <input type="button" name="btn_close_delete_feature" id="btn_close_delete_feature" value="Close" class="col100p-np padding10" />
+    </div><!--
+ --><div class="col-box col30p-np">&nbsp;</div><!--
+ --><div class="col-box col35p-np">
+      <input type="button" name="btn_delete_feature" id="btn_delete_feature" class="col100p-np padding10 red-button" value="Delete" />
+    </div>
+  </div>
+</div>
+<div id="geom-message" class="disp-none"></div>
+<script type="text/javascript" src='{{"leaflet/leaflet.js" | _asset}}'></script>
+<script type="text/javascript" src='{{"leaflet/leaflet.utfgrid.js" | _asset}}'></script>
+<script type="text/javascript" src='{{"jquery-ui.1.12.1/jquery-ui.min.js" | _asset}}'></script>
+<script type="text/javascript" src='{{"spectrum/spectrum.js" | _asset}}'></script>
+{{if index .user_details "google_maps_key"}}
+<script type="text/javascript" src='https://maps.googleapis.com/maps/api/js?key={{index .user_details "google_maps_key"}}' async defer></script>
+<script type="text/javascript" src='{{"leaflet/Leaflet.GoogleMutant.js" | _asset}}'></script>
+{{end}}
+{{if index .user_details "bing_maps_key"}}
+<script type="text/javascript" src='{{"leaflet/Bing.js" | _asset}}'></script>
+{{end}}
+<script type="text/javascript" src="http://api-maps.yandex.ru/2.0/?load=package.map&amp;lang=en-GB"></script>
+<script type="text/javascript" src='{{"leaflet/Yandex.js" | _asset}}'></script>
+{{"naksha_map.js" | _js}}
+{{"map.js" | _js}}
+<script type="text/javascript">
+  $(document).ready(function() {
+    Table.init('{{.url}}', '{{.tables_url}}/delete_column', '{{.columns}}');
+    Map.setValues(
+      '{{.map_url}}',
+      '{{.url}}delete/',
+      '{{.update_hash}}',
+      '{{"images/white_green_marker.png" | _asset}}',
+      '{{.extent}}',
+      '{{.geometry_type}}',
+      '{{.style}}',
+      '{{ index .user_details "google_maps_key"}}',
+      '{{ index .user_details "bing_maps_key"}}',
+      '{{ .base_layer }}'
+    );
+    ExportStatus.init();
+    TableAdmin.init('{{.infowindow}}');
+    new naksha.AjaxForm({
+      form: '#frm_publish',
+      success_callback: function(rt) {
+        window.location.href = rt['redir_url'];
+      }
+    });
+  });
+</script>
+{{template "footer"}}
+{{end}}

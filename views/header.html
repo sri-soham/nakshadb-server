@@ -1,0 +1,42 @@
+{{define "header"}}<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>{{_title}}</title>
+  {{"reset.css" | _css}}
+  {{"generic.css" | _css}}
+  {{"main.css" | _css}}
+  {{if .css}} {{range .css}}
+  {{. | _css}}
+  {{end}}{{end}}
+  {{"jquery-3.2.1.min.js" | _js}}
+  {{"common.js" | _js}}
+  {{if .js}} {{range .js}}
+  {{ . | _js}}
+  {{end}}{{end}}
+  {{if .sess_user_id}}
+  {{"exim_status.js" | _js}}
+    <script type="text/javascript">
+      $(document).ready(function() {
+        ExportStatus.checkExports({{.sess_exports}});
+        ImportStatus.checkImports({{.sess_imports}});
+      });
+    </script>
+  {{end}}
+</head>
+<body>
+  <div id="container">
+    <div id="header">
+      <h1>NakshaDB</h1>
+      <nav id="menu-links">
+      {{if .sess_user_id}}
+        <a href="/dashboard">Dashboard</a>
+        <a href="/maps/index">Published Maps</a>
+        <a href="/exports/index">Exports</a>
+        <a href="/profile">Profile</a>
+        <a href="/logout">Log Out</a>
+      {{end}}
+      </nav>
+    </div>
+    <div id="content">
+{{end}}

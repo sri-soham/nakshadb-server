@@ -1,0 +1,54 @@
+{{define "index_profile"}}{{template "header" .}}
+<div class="col100p">
+   <div class="col-box col40p-np inner-box">
+     <div class="inner-box-header">Change Password</div>
+     <div class="inner-box-content">
+       <form name="frm_change_password" id="frm_change_password" method="post" action="/change_password" class="pos-rel">
+         <table class="for-form col100p">
+           <tr>
+             <td>Current Password: </td>
+             <td><input type="password" name="current_password" class="col100p" /></td>
+           </tr>
+           <tr>
+             <td>New Password: </td>
+             <td><input type="password" name="new_password" class="col100p" /></td>
+           </tr>
+           <tr>
+             <td>Confirm New Password: </td>
+             <td><input type="password" name="confirm_password" class="col100p" /></td>
+           </tr>
+           <tr>
+             <td>&nbsp;</td>
+             <td><input type="submit" name="submit1" value="Submit" /></td>
+           </tr>
+         </table>
+       </form>
+     </div>
+   </div><!--
+--><div class="col-box col10p">&nbsp;</div><!--
+--><div class="col-box col50p">
+     <div class="col100p-np inner-box mb10 pos-rel">
+       <div class="inner-box-header">Google Maps API Key</div>
+       <div class="inner-box-content">
+         <input type="text" name="google_maps_key" value='{{index .user_details "google_maps_key"}}' class="col-box col75p"><!--
+      --><span class="col-box col10p">&nbsp;</span><!--
+      --><input type="button" name="btn_google_maps" id="btn_google_maps" class="col-box col15p" value="Save" />
+       </div>
+     </div>
+     <div class="col100p-np inner-box mt10 pos-rel">
+       <div class="inner-box-header">Bing Maps API Key</div>
+       <div class="inner-box-content">
+         <input type="text" name="bing_maps_key" value='{{index .user_details "bing_maps_key"}}' class="col-box col75p"><!--
+      --><span class="col-box col10p">&nbsp;</span><!--
+      --><input type="button" name="btn_bing_maps" id="btn_bing_maps" class="col-box col15p" value="Save" />
+       </div>
+     </div>
+   </div>
+</div>
+<script type="text/javascript">
+  $(document).ready(function() {
+    UserProfile.init();
+  });
+</script>
+{{template "footer"}}
+{{end}}

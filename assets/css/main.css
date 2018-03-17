@@ -1,0 +1,255 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Helvetica;
+    font-size: 16px;
+    background-color: #fff;
+    color: #000;
+    line-height: 18px;
+}
+a {
+    color: #36f;
+}
+#container {
+    width: 98%;
+    margin: 0px auto;
+}
+#header {
+    border-bottom: 1px #DAA520 solid;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    padding-bottom: 10px;
+}
+#content {
+    min-height: 700px;
+}
+* html #content {
+    height: 700px;
+    overflow: visible;
+}
+#footer {
+    border-top: 1px #DAA520 solid;
+    margin-top: 5px;
+    padding-top: 5px;
+}
+#header h1 {
+    padding-top: 10px;
+    display: inline-block;
+    width: 20%;
+}
+    #header #menu-links {
+        text-align: right;
+        display: inline-block;
+        width: 78%;
+    }
+    #header #menu-links a {
+        padding: 5px 10px;
+        background-color: #39f;
+        color: #fff;
+        text-decoration: none;
+        margin-right: 5px;
+    }
+
+#page-title {
+    font-size: 18px;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.message {
+    background-color: #ff9;
+    padding: 10px;
+    text-align: center;
+    border: 1px #ccc solid;
+    margin-bottom: 10px;
+}
+
+.pagination-div {
+    padding: 5px;
+    text-align: right;
+    margin-top: 5px;
+}
+    .pagination-div p {
+        margin-right: 10px;
+        display: inline;
+    }
+    .pagination-div a {
+        padding: 5px;
+        text-decoration: none;
+        background-color: #36f;
+        color: #fff;
+        margin-right: 5px;
+        vertical-align: middle;
+        text-align: center;
+    }
+    .pagination-div span {
+        padding: 3px;
+        margin-right: 5px;
+        border: 2px #36f solid;
+        text-align: center;
+    }
+
+#login-div {
+    width: 400px;
+    height: 300px;
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    margin-left: -200px;
+    padding: 10px;
+    border: 1px #ccc solid;
+    border-radius: 10px;
+    background-color: #f3f3ff;
+}
+    #login-div h1 {
+        font-size: 200%;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    #login-div table {}
+    #login-div table tr td {
+        padding: 10px;
+    }
+
+.geom-table-container {
+    width: 100%;
+    overflow: auto;
+    position: relative;
+}
+.geom-table {
+    width: auto;
+    margin: 10px auto;
+    overflow-x: scroll;
+    border-top: 2px #ccc solid;
+    border-bottom: 2px #ccc solid;
+    border-left: 1px #ccc solid;
+    display: block;
+}
+.geom-table tr th,
+.geom-table tr td {
+    padding: 10px;
+    white-space: nowrap;
+}
+.geom-table tr th {
+    background-color: #e1e1e1;
+    font-size: 110%;
+    text-align: left;
+}
+.geom-table tr td {
+    border-bottom: 1px #ccc solid;
+    vertical-align: top;
+    border-right: 1px #ccc solid;
+}
+#gt-footer tr td {
+    border-bottom: none;
+    border-right: none;
+}
+#geom-message {
+    position: fixed;
+    top: 200px;
+    left: 5%;
+    width: 90%;
+    padding: 10px;
+    background-color: #ffff99;
+    border: 1pc #999 solid;
+    z-index: 2000;
+}
+#geom-edit, #geom-infowindow {
+    position: fixed;
+    width: 400px;
+    top: 200px;
+    left: 50%;
+    margin-left: -200px;
+    padding: 10px;
+    border: 2px #333 solid;
+    border-radius: 5px;
+    background-color: #ffff99;
+    color: #000;
+    z-index: 20;
+}
+#geom-infowindow {
+    z-index: 500;
+}
+
+.del-row {
+    color: #39f;
+    cursor: pointer;
+}
+.upd-cell {
+    cursor: pointer;
+}
+.infowindow-column {
+    display: inline-block;
+    margin: 0px 10px 10px 0px;
+    width: 250px;
+    padding: 10px;
+    border: 1px #ccc solid;
+}
+
+.red-button {
+    background-color: #f33;
+    color: #000;
+    font-weight: bold;
+}
+
+.published-map-div {
+    width: 300px;
+    display: inline-block;
+    margin: 0px 10px 10px 0px;
+    padding: 10px;
+    vertical-align: top;
+    background-color: #f3f3f3;
+    border: 1px #ccc solid;
+}
+    .published-map-div a {
+        text-decoration: none;
+    }
+
+.exim-message-holder {
+    position: fixed;
+    background-color: #ffff99;
+    border: 1px #999 solid;
+    width: 300px;
+}
+#import-message-holder {
+    left: 10px;
+    bottom: 10px;
+}
+#export-message-holder {
+    right: 10px;
+    bottom: 10px;
+}
+
+    .exim-message-holder h5 {
+        padding: 10px;
+        cursor: pointer;
+        text-align: center;
+    }
+    .exim-message-box {
+        border-top: 1px #333 solid;
+        padding: 10px;
+    }
+    .exim-message-box span {
+        float: right;
+        margin: 5px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+#loading-image-holder {
+    position: fixed;
+    top: 200px;
+    left: 50%;
+    margin-left: -150px;
+    width: 300px;
+    height: 300px;
+    background-color: rgba(200, 200, 200, 0.75);
+    border: 1px #222 solid;
+    text-align: center;
+}
+    #loading-image-holder img {
+        margin-top: 50px;
+    }

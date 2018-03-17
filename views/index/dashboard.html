@@ -1,0 +1,46 @@
+{{define "index_dashboard"}}{{template "header" .}}
+<style type="text/css">
+  .table-div {
+    display: inline-block;
+    width: 300px;
+    border: 1px #ccc solid;
+    margin: 0px 10px 15px 0px;
+    vertical-align: top;
+    background-color: #f1f1f1;
+  }
+  .table-div p {
+    display: inline-block;
+    padding: 10px;
+    position: relative;
+  }
+  .table-div p:first-child {
+    width: 260px;
+    border-right: 1px #ccc solid;
+  }
+  .table-div p:last-child a {
+    text-decoration: none;
+    color: #f11;
+  }
+</style>
+<div class="col100p">
+  <div class="tRight mb10"><a href="/tables/new">Add Table</a></div>
+  <div id="tables-list">
+    {{range $index, $table := .tables}}
+    <div class="table-div">
+      <p><a href="/tables/{{index $table "id"}}/show">{{index $table "name"}}</a></p>
+      <p><a href="/tables/{{index $table "id"}}/delete" class="del-table">X</a></p>
+    </div>
+    {{end}}
+  </div>
+  <div class="pagination-div">
+    <p>({{.pagination_text}})</p>
+    {{.pagination_links}}
+  </div>
+</div>
+<script type="text/javascript">
+  $(document).ready(function() {
+    Dashboard.init();
+  });
+</script>
+{{template "footer"}}
+{{end}}

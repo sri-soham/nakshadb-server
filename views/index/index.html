@@ -1,0 +1,35 @@
+{{define "index_index"}}
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" / >
+  <title>Naksha</title>
+  {{"reset.css" | _css}}
+  {{"generic.css" | _css}}
+  {{"main.css" | _css}}
+  {{"jquery-3.2.1.min.js" | _js}}
+  {{"msg_box.js" | _js}}
+</head>
+<body>
+  <div id="login-div">
+    <h1>Naksha</h1>
+    {{template "errors" .}}
+    <form name="frm_login" method="post" action="">
+      <table>
+        <tr>
+          <td>UserName: </td>
+          <td><input type="text" name="username" /></td>
+        </tr>
+        <tr>
+          <td>Password: </td>
+          <td><input type="password" name="password" /></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td><input type="submit" name="submit1" value="Log In" />
+        </tr>
+      </table>
+    </form>
+  </div>
+</body>
+</html>
+{{end}}
